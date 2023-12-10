@@ -5,23 +5,120 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music-tone</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+        integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjVShBftLdPG8FJ0V7irTLQ8Uo0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="index.css">
 </head>
 
 <body>
     <div class="outercontainer">
         <div class="innercontainer">
-            <h3>Song Name</h3>
-            <h4>Artist Name</h4>
-            <img src="images/cover1.png" alt="imgname" />
-            <audio src="Musicfiles/podsiadlo.mp3"></audio>
+            <h3 id="sgname">Untitled-14</h3>
+            <h4 id="artist">Tutututu</h4>
+
+            <img src="images/song1.png" alt="imgname" class="img" />
+            <audio src="Musicfiles/song1.mp3"></audio>
             <div class="controlers">
-                <i class="fa-solid fa-circle-backward"></i>
-                <i class="fa-solid fa-circle-play"></i>
-                <i class="fa-solid fa-circle-forward"></i>
+                <i class="fa-solid fa-backward " id="prev"></i>
+                <i class="fa-solid fa-circle-play " id="unique"></i>
+                <i class="fa-solid fa-forward" id="forward"></i>
             </div>
         </div>
     </div>
 
 </body>
+<script>
+    const audio = document.querySelector("audio");
+    const img = document.querySelector("img");
+    const play = document.getElementById("unique");
+
+    const sgname = document.getElementById("sgname");
+    const artist = document.getElementById("artist");
+    const prev = document.getElementById("prev");
+    const forward = document.getElementById("forward");
+
+    //    query selector used when you want do target or pick elments othet than i h tags 
+    // like i h p 
+
+    // now songs array 
+    const songsarray = [{
+        name: "song1",
+        sgname: "Untitled-14",
+        artist: "Tutututu"
+    },
+    {
+        name: "song2",
+        sgname: "Untitled-15",
+        artist: "Disaster"
+    },
+    {
+        name: "song3",
+        sgname: "Untitled-16",
+        artist: "No Evil"
+    },
+    ]
+
+
+    let isplaying = false;
+    const Playaudio = () => {
+        isplaying = true;
+
+        audio.play();
+        play.classList.replace("fa-circle-play", "fa-pause");
+        img.classList.add("anime");
+
+    }
+
+    const Pauseaudio = () => {
+        isplaying = false;
+
+        audio.pause();
+        play.classList.replace("fa-pause", "fa-circle-play");
+        img.classList.remove("anime");
+
+    }
+
+    play.addEventListener("click", () => {
+
+        if (isplaying == true) {
+            Pauseaudio();
+
+        }
+        else {
+            Playaudio();
+
+        }
+    })
+
+    const setSongs = (songsarray) => {
+        sgname.textContent = songsarray.sgname;
+        artist.textContent = songsarray.artist;
+        img.src = "images/" + songsarray.name + ".png";
+        audio.src = "Musicfiles/" + songsarray.name + ".mp3";
+
+
+    }
+
+    let songindex = 0;
+
+
+
+    const prevplay = () => {
+        songindex = (songindex - 1) % songsarray.length;
+        setSongs(songsarray[songindex]);
+
+    }
+
+
+    const forwardplay = () => {
+        songindex = (songindex + 1) % songsarray.length;
+        setSongs(songsarray[songindex]);
+    }
+
+    prev.addEventListener("click", prevplay());
+    forward.addEventListener("click", forwardplay());
+
+</script>
 
 </html>
